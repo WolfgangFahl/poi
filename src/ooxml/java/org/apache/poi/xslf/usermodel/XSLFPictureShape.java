@@ -101,10 +101,13 @@ public class XSLFPictureShape extends XSLFSimpleShape
      * Return the data on the (internal) picture.
      * For an external linked picture, will return null
      */
+    @Override
     public XSLFPictureData getPictureData() {
         if(_data == null){
             String blipId = getBlipId();
-            if (blipId == null) return null;
+            if (blipId == null) {
+                return null;
+            }
 
             PackagePart p = getSheet().getPackagePart();
             PackageRelationship rel = p.getRelationship(blipId);
@@ -125,8 +128,8 @@ public class XSLFPictureShape extends XSLFSimpleShape
     public void setPlaceholder(Placeholder placeholder) {
         super.setPlaceholder(placeholder);
     }
-    
-    
+
+
     /**
      * For an external linked picture, return the last-seen
      *  path to the picture.
@@ -137,13 +140,13 @@ public class XSLFPictureShape extends XSLFSimpleShape
             // Internal picture, nothing to return
             return null;
         }
-        
+
         String rId = getBlipLink();
         if (rId == null) {
             // No link recorded, nothing we can do
             return null;
         }
-        
+
         PackagePart p = getSheet().getPackagePart();
         PackageRelationship rel = p.getRelationship(rId);
         if (rel != null) {
@@ -158,7 +161,7 @@ public class XSLFPictureShape extends XSLFSimpleShape
         if (bfp != null) {
             return bfp;
         }
-                    
+
         String xquery =
                 "declare namespace p='http://schemas.openxmlformats.org/presentationml/2006/main'; "
               + "declare namespace mc='http://schemas.openxmlformats.org/markup-compatibility/2006' "
@@ -172,20 +175,24 @@ public class XSLFPictureShape extends XSLFSimpleShape
         }
         return ((CTPicture)xo).getBlipFill();
     }
-    
+
     protected CTBlip getBlip(){
         return getBlipFill().getBlip();
     }
-    
+
     protected String getBlipLink(){
         String link = getBlip().getLink();
-        if (link.isEmpty()) return null;
+        if (link.isEmpty()) {
+            return null;
+        }
         return link;
     }
-    
+
     protected String getBlipId(){
         String id = getBlip().getEmbed();
-        if (id.isEmpty()) return null;
+        if (id.isEmpty()) {
+            return null;
+        }
         return id;
     }
 
@@ -201,8 +208,9 @@ public class XSLFPictureShape extends XSLFSimpleShape
 
         XSLFPictureShape p = (XSLFPictureShape)sh;
         String blipId = p.getBlipId();
-        if (blipId==null) {
+        if (blipId == null) {
             // should we do anything about this?
+            // why would the blipId be null in the first place?
             return;
         }
         String relId = getSheet().importBlip(blipId, p.getSheet().getPackagePart());
