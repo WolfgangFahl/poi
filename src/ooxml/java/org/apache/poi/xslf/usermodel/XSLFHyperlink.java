@@ -54,16 +54,16 @@ public class XSLFHyperlink implements Hyperlink<XSLFShape,XSLFTextParagraph> {
         if (id == null || id.isEmpty()) {
             return _link.getAction();
         }
-        String url=null;
+        String url = null;
         PackagePart pp = _sheet.getPackagePart();
-        if (pp!=null) {
+        if (pp != null) {
             PackageRelationship rs = pp.getRelationship(id);
-            if (rs!=null) {
+            if (rs != null) {
                 URI targetURI = rs.getTargetURI();
-                url=targetURI.toASCIIString();
+                url = targetURI.toASCIIString();
             }
         }
-        
+
         return url;
     }
 
@@ -161,7 +161,7 @@ public class XSLFHyperlink implements Hyperlink<XSLFShape,XSLFTextParagraph> {
     public void linkToLastSlide() {
         linkToRelativeSlide("lastslide");
     }
-    
+
     private void linkToRelativeSlide(String jump) {
         PackagePart thisPP = _sheet.getPackagePart();
         if (_link.isSetId() && !_link.getId().isEmpty()) {

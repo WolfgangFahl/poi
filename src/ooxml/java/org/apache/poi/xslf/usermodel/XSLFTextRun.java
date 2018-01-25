@@ -208,11 +208,11 @@ public class XSLFTextRun implements TextRun {
     public Double getFontSize(){
         double scale = 1;
         XSLFTextParagraph pp = getParentParagraph();
-        if (pp!=null) {
+        if (pp != null) {
             XSLFTextShape ps = pp.getParentShape();
-            if (ps!=null) {
+            if (ps != null) {
                 CTTextBodyProperties tbp = ps.getTextBodyPr();
-                if (tbp!=null) {
+                if (tbp != null) {
                     CTTextNormalAutofit afit = tbp.getNormAutofit();
                     if(afit != null) {
                         scale = (double)afit.getFontScale() / 100000;
@@ -232,8 +232,7 @@ public class XSLFTextRun implements TextRun {
             }
         };
         fetchCharacterProperty(fetcher);
-        Double result=fetcher.getValue() == null ? null : fetcher.getValue()*scale;
-        return result;
+        return fetcher.getValue() == null ? null : fetcher.getValue() * scale;
     }
 
     /**
@@ -598,8 +597,9 @@ public class XSLFTextRun implements TextRun {
         PaintStyle srcFontColor = r.getFontColor();
         if(srcFontColor != null && !srcFontColor.equals(getFontColor())){
             // setFontColor will throw IllegalArgumentException if this is not checked
-            if (srcFontColor instanceof SolidPaint)
+            if (srcFontColor instanceof SolidPaint) {
                 setFontColor(srcFontColor);
+            }
         }
 
         Double srcFontSize=r.getFontSize();
@@ -686,7 +686,7 @@ public class XSLFTextRun implements TextRun {
                 getXmlObject(true).setTypeface(typeface);
                 return;
             }
-            
+
             CTTextCharacterProperties props = getRPr(false);
             if (props == null) {
                 return;
@@ -850,7 +850,7 @@ public class XSLFTextRun implements TextRun {
                     font = coll.getLatin();
                 }
                 // SYMBOL is missing
-                
+
                 if (font == null || !font.isSetTypeface() || "".equals(font.getTypeface())) {
                     font = coll.getLatin();
                 }
